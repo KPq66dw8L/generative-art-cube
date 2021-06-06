@@ -112,13 +112,21 @@ const sketch = ({ context }) => {
   const mesh = new THREE.Mesh(geometry, material);
   const meshLines = new THREE.LineSegments(edgeGeo, material1);
   const meshPoints = new THREE.Points(geometry, material2);
+  const meshSphere = new THREE.Mesh(
+    geometry, new THREE.MeshNormalMaterial({
+      opacity: 0.8,
+      transparent: true
+    })
+  );
 
   scene.add(mesh);
   scene.add(meshLines);
   scene.add(meshPoints);
+  scene.add(meshSphere);
 
   meshLines.scale.set(1.0003,1.0003,1.0003); //for the lines not to be hidden a certain moments
   meshPoints.scale.set(1.003,1.003,1.003);
+  meshSphere.scale.set(1.25, 1.25, 1.25);
 
   // draw each frame
   return {
@@ -135,6 +143,10 @@ const sketch = ({ context }) => {
       material.uniforms.playhead.value = playhead;
       material1.uniforms.playhead.value = playhead;
       material2.uniforms.playhead.value = playhead;
+      
+      scene.rotation.x = 0.1 * Math.sin(playhead*4*Math.PI);
+      scene.rotation.y = 0.2 * Math.sin(playhead*2*Math.PI);
+      scene.rotation.z = 0.3 * Math.sin(playhead*2*Math.PI);
       controls.update();
       renderer.render(scene, camera);
     },
