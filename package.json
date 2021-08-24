@@ -2,7 +2,7 @@
   "name": "cool-sphere",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "sketches/2021.06.06-16.49.35.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
