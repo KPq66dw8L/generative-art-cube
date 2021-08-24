@@ -14,8 +14,8 @@ void main()	{
 	vec3 Y = dFdy(vPosition);
 	vec3 n=normalize(cross(X,Y));
 
-	gl_FragColor = vec4(vNormal,1.);
-	gl_FragColor = vec4(vPosition,1.);
-	gl_FragColor = vec4(n,1.);
+	gl_FragColor = vec4(0.,0.,0.,1.);
+	// gl_FragColor = vec4(vPosition,1.);
+	// gl_FragColor = vec4(n,1.);
 	// gl_FragColor = vec4(vec3(vNoise),1.);
 }

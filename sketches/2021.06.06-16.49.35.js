@@ -31,7 +31,7 @@ const sketch = ({ context }) => {
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
-  camera.position.set(0, 0, 4);
+  camera.position.set(5, 6, 5);
   camera.lookAt(new THREE.Vector3());
 
   // Setup camera controller
@@ -41,17 +41,19 @@ const sketch = ({ context }) => {
   const scene = new THREE.Scene();
 
   // Setup a geometry
-  const geometry = new THREE.IcosahedronBufferGeometry(1,6);
+  const geometry = new THREE.BoxGeometry(4,4,4, 12,14,12);
   const edgeGeo = new THREE.EdgesGeometry(geometry);
   // Setup a material
   // const gridTexture = new THREE.TextureLoader().load('grid.jpg');
-  // const material1 = new THREE.MeshNormalMaterial({
-  //   // color: "red",
-  //   // wireframe: true
-  //   flatShading: true
-  // });
+  const material0 = new THREE.MeshNormalMaterial({
+    color: "black",
+    // wireframe: true
+    flatShading: true,
+    
+  });
 
   const material = new THREE.ShaderMaterial({
+    
     extensions: {
       derivatives: "#extension GL_OES_standard_derivatives : enable"
     },
@@ -67,7 +69,8 @@ const sketch = ({ context }) => {
     // wireframe: true,
     // transparent: true,
     vertexShader: vertex,
-    fragmentShader: fragment
+    fragmentShader: fragment,
+    
   });
 
   const material1 = new THREE.ShaderMaterial({
@@ -111,22 +114,20 @@ const sketch = ({ context }) => {
   // Setup a mesh with geometry + material
   const mesh = new THREE.Mesh(geometry, material);
   const meshLines = new THREE.LineSegments(edgeGeo, material1);
+  const meshLines2 = new THREE.LineSegments(geometry, material1);
   const meshPoints = new THREE.Points(geometry, material2);
-  const meshSphere = new THREE.Mesh(
-    geometry, new THREE.MeshNormalMaterial({
-      opacity: 0.8,
-      transparent: true
-    })
-  );
+  
 
   scene.add(mesh);
   scene.add(meshLines);
+  scene.add(meshLines2);
   scene.add(meshPoints);
-  scene.add(meshSphere);
+  
 
   meshLines.scale.set(1.0003,1.0003,1.0003); //for the lines not to be hidden a certain moments
+  meshLines2.scale.set(1.0003,1.0003,1.0003);
   meshPoints.scale.set(1.003,1.003,1.003);
-  meshSphere.scale.set(1.25, 1.25, 1.25);
+  
 
   // draw each frame
   return {
@@ -144,9 +145,7 @@ const sketch = ({ context }) => {
       material1.uniforms.playhead.value = playhead;
       material2.uniforms.playhead.value = playhead;
       
-      scene.rotation.x = 0.1 * Math.sin(playhead*4*Math.PI);
-      scene.rotation.y = 0.2 * Math.sin(playhead*2*Math.PI);
-      scene.rotation.z = 0.3 * Math.sin(playhead*2*Math.PI);
+      
       controls.update();
       renderer.render(scene, camera);
     },
